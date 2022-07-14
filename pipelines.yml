@@ -31,7 +31,7 @@ pipelines:
       - name: jenkins_test
         type: Jenkins
         configuration:
-          affinityGroup: deepika
+#           affinityGroup: deepika
           inputSteps:
             - name: manual_trigger
           jenkinsJobName: testPipeline
