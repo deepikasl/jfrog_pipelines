@@ -15,11 +15,12 @@ resources:
 
 pipelines:
   - name: demo_manual
+    configuration:
+      affinityGroup: deepika
     steps:
       - name: manual_trigger
         type: Bash
         configuration:
-          affinityGroup: deepika
           inputResources:
             - name: myRepo
           outputResources:
@@ -30,7 +31,6 @@ pipelines:
       - name: jenkins_test
         type: Jenkins
         configuration:
-          affinityGroup: deepika
           inputSteps:
             - name: manual_trigger
           jenkinsJobName: testPipeline
