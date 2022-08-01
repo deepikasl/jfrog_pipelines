@@ -275,6 +275,7 @@ pipelines:
       - name: demoBash_main
         type: Bash
         configuration:
+          timeoutSeconds: 300
           inputResources:
             - name: script_1
 #             - name: propertyBag
