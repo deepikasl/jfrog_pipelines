@@ -261,6 +261,9 @@ pipelines:
             - name: script_2
           outputResources:
             - name: propertyBag
+          integration:
+            - deepikaGithub
+            - deepikaGithub
         execution:
           onExecute:
             - write_output propertyBag "foo=$run_number"
