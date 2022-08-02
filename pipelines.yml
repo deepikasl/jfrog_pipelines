@@ -264,8 +264,8 @@ pipelines:
             - name: script_2
           outputResources:
             - name: propertyBag
-#           integrations:
-#             - name: deepikaGithub
+          integrations:
+            - name: deepikaGithub
 #             - name: deepikaGithub
         execution:
           onExecute:
