@@ -256,7 +256,6 @@ pipelines:
     configuration:
       integrations:
         - name: deepikaGithub
-        - name: deepikaGithub
     steps:
       - name: manual_trigger
         type: Bash
@@ -265,9 +264,9 @@ pipelines:
             - name: script_2
           outputResources:
             - name: propertyBag
-          integrations:
-            - name: deepikaGithub
-            - name: deepikaGithub
+#           integrations:
+#             - name: deepikaGithub
+#             - name: deepikaGithub
         execution:
           onExecute:
             - write_output propertyBag "foo=$run_number"
