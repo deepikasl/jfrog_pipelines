@@ -1,0 +1,23 @@
+resources:
+  - name: myRepo_2
+    type: GITRepo
+    configuration:
+      path: deepikasl/jfrog_pipelines
+      gitProvider: deepikaGithub
+      branches:
+        include: ^{{gitBranch}}$
+
+pipelines:
+  - name: demo_manual_2
+    configuration:
+      integrations:
+        - name: deepikaGithub
+    steps:
+      - name: manual_trigger_2
+        type: Bash
+        configuration:
+          inputResources:
+            - name: myRepo_2
+        execution:
+          onExecute:
+            - echo "hi"
