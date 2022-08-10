@@ -256,7 +256,6 @@ pipelines:
     configuration:
       integrations:
         - name: deepikaGithub
-        - name: deepikaGithub
     steps:
       - name: manual_trigger
         type: Bash
