@@ -92,6 +92,5 @@ pipelines:
             - echo "here"
             - echo "hi"
             - echo "hah"
-            - echo "hello"
 
 
