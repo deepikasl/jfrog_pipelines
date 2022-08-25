@@ -20,13 +20,6 @@ resources:
     configuration:
       info: ""
 
-  - name: docker_build_info
-    type: BuildInfo
-    configuration:
-      sourceArtifactory: deepika_art
-      buildNumber: 1
-      buildName: sampleStep
-
 pipelines: 
   - name: demo_manual
     steps:
