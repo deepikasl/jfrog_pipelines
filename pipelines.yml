@@ -1,43 +1,39 @@
 resources:
-  - name: myRepo
+  - name: newRepo
     type: GitRepo
     configuration:
       path: deepikasl/jfrog_pipelines
       gitProvider: deepikaGithub
       branches:
         include: master
-      files:
-        include: \bfolder2\/.+\b
       buildOn:
          commit:            true
-         pullRequestCreate: true
-         pullRequestClose:  true
-         releaseCreate:     false
-         tagCreate:         false
       
-  - name: propertyBag
+  - name: myVersion
     type: PropertyBag
     configuration:
       info: ""
 
 pipelines: 
-  - name: demo_manual
+  - name: sample_pipeline
     steps:
-      - name: step_1
+      - name: step_A
         type: Bash
         configuration:
           inputResources:
-            - name: myRepo
+            - name: newRepo
           outputResources:
-            - name: propertyBag
+            - name: myVersion
         execution:
           onExecute:
             - write_output propertyBag "info=$run_number"
-      - name: step_2
+  - name: trigger_pipeline
+    steps:
+      - name: step_B
         type: Bash
         configuration:
           inputResources:
-            - name: propertyBag
+            - name: myVersion
         execution:
           onExecute:
-            - echo $res_propertyBag_info
+            - echo $res_myVersion_info
