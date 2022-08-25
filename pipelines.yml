@@ -32,7 +32,7 @@ pipelines:
             - name: propertyBag
         execution:
           onExecute:
-            - write_output propertyBag "info=$run_number"
+            - write_output propertyBag "info=test"
       - name: step_2
         type: Bash
         configuration:
