@@ -10,7 +10,7 @@ pipelines:
         execution:
           onExecute:
             - echo "here"
-     - name: step2
+      - name: step2
         type: Bash
         configuration:
           inputSteps:
