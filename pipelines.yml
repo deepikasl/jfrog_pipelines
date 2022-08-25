@@ -26,7 +26,7 @@ pipelines:
             - name: myVersion
         execution:
           onExecute:
-            - write_output propertyBag "info=$run_number"
+            - write_output propertyBag "info=test"
   - name: trigger_pipeline
     steps:
       - name: step_B
