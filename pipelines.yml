@@ -1,112 +1,50 @@
 resources:
-  - name: docker_build_repo
+  - name: myRepo
     type: GitRepo
     configuration:
-      path: deepikasl/dockerbuild
+      path: deepikasl/jfrog_pipelines
       gitProvider: deepikaGithub
+      branches:
+        include: master
+      files:
+        include: \bfolder2\/.+\b
+      buildOn:
+         commit:            true
+         pullRequestCreate: true
+         pullRequestClose:  true
+         releaseCreate:     false
+         tagCreate:         false
       
+  - name: propertyBag
+    type: PropertyBag
+    configuration:
+      info: ""
+
   - name: docker_build_info
     type: BuildInfo
     configuration:
       sourceArtifactory: deepika_art
       buildNumber: 1
-      buildName: dockertest  
-      
-  - name: unsigned_release_bundle_docker_build
-    type: ReleaseBundle
-    configuration:
-      sourceDistribution: deepika_dist
-      name: test-docker-local
-      version: v1.0
-      
-  - name: signed_release_bundle_docker_build
-    type: ReleaseBundle
-    configuration:
-      sourceDistribution: deepika_dist
-      name: test-docker-local
-      version: v1.0
-
-  - name: distribution_rule_docker_build
-    type: DistributionRule
-    configuration:
-      sourceDistribution: deepika_dist
-      cityName: "*"
-      serviceName: "*"
-      siteName: "*"
-      countryCodes:
-        - IN
+      buildName: sampleStep
 
 pipelines: 
-  - name: demo_docker
+  - name: demo_manual
     steps:
-      - name: docker_build
-        type: DockerBuild
+      - name: step_1
+        type: Bash
         configuration:
-         # nodePool: aws-demo-pool
-          dockerFileLocation: .
-          dockerFileName: Dockerfile
-          dockerImageName: '34.66.107.45:8081/docker-stage-local/deepika'
-          dockerImageTag: myImg_$pipeline_name.$run_number
-          integrations:
-            - name: deepika_art
           inputResources:
-            - name: docker_build_repo    
-   
-      - name: docker_push
-        type: DockerPush
-        configuration:
-         # nodePool: aws-demo-pool
-          targetRepository: test-docker-local
-          integrations:
-            - name: deepika_art
-          inputSteps:
-            - name: docker_build
-            
-      - name: docker_publish
-        type: PublishBuildInfo
-        configuration:
-         # nodePool: aws-demo-pool
-          inputSteps:
-            - name: docker_push
+            - name: myRepo
           outputResources:
-            - name: docker_build_info  
-            
-      - name: bundle_docker
-        type: CreateReleaseBundle
+            - name: propertyBag
+        execution:
+          onExecute:
+            - write_output propertyBag "info=$run_number"
+      - name: step_2
+        type: Bash
         configuration:
-         # nodePool: aws-demo-pool
-          releaseBundleName: test-docker-local
-          releaseBundleVersion: v0.1.$run_number
-          dryRun: false
-          sign: false
-          description: "docker build"
           inputResources:
-            - name: docker_build_info
-          outputResources:
-            - name: unsigned_release_bundle_docker_build
-          releaseNotes:
-            syntax: markdown
-            content: |
-              ## This is a demo to test Docker Build 
-                * Build -> Push -> Publish -> Bundle -> Sign -> Distribute
-                * Points       
-                 
-      - name: sign_release_bundle_docker
-        type: SignReleaseBundle
-        configuration:
-          #nodePool: aws-demo-pool
-          inputResources:
-            - name: unsigned_release_bundle_docker_build
-          outputResources:
-            - name: signed_release_bundle_docker_build
-            
-      - name: dockerDistribute
-        type: DistributeReleaseBundle
-        configuration:
-          #nodePool: aws-demo-pool
-          dryRun: false
-          inputResources:
-            - name: signed_release_bundle_docker_build
-            - name: distribution_rule_docker_build
-          integrations: 
-            - name: deepika_dist             
+            - name: propertyBag
+        execution:
+          onExecute:
+            - echo $res_propertyBag_info
