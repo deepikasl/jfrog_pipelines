@@ -18,7 +18,7 @@ resources:
   - name: propertyBag
     type: PropertyBag
     configuration:
-      info: ""
+      info: "version"
 
 pipelines: 
   - name: demo_manual
