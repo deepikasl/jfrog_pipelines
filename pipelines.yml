@@ -12,7 +12,7 @@ resources:
   - name: myVersion
     type: PropertyBag
     configuration:
-      info: ""
+      info: "version"
 
 pipelines: 
   - name: sample_pipeline
